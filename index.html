@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+	<script type="text/javascript">
+		var count=0;
+		document.turn="X";
+			document.winner=null;
+	
+		function nextmove(square)
+		{
+
+            if(document.winner!=null)
+            {
+            	alert(document.turn+" "+"reset the game");
+            }
+			else if(square.innerHTML=='')
+			{	
+				count++;
+			square.innerHTML=document.turn;
+			switchturn1();
+			}
+			else
+			{
+				alert("its already fill it");
+			}
+		}
+		
+		
+		function switchturn1()
+		{
+			
+			//var square=document.getElementsByClassName('square');
+			//square=validmoves(square);
+			if(checkwinner(document.turn))
+			{
+				  var dis=document.getElementById('content1');
+       			var x=document.getElementById('d2').innerHTML=document.turn+" "+"won!";
+      			 dis.style.display='block';
+          
+               // alert("congrates,"+" "+document.turn +" "+"has won!");
+                document.winner=document.turn;
+                gamereset();
+
+			}
+			checkdraw(count,document.winner);
+			
+			
+			 if(document.turn=="X")
+			{
+              
+				document.turn='O';
+				
+				/*var aimove=aimoves(square);
+                var x=checkmove(aimove,document.turn);
+                square=x;
+                square.innerHTML=document.turn;
+				  
+				// square=aimove;
+			 	//(square).innerHTML=document.turn;
+			 	//document.turn='X';*/
+			 	
+				/*var square=document.getElementByClassName('square');
+				computer(square);*/
+				//document.turn='x';
+			}
+			else
+			{
+				document.turn="X";
+			}
+
+
+			
+
+		}
+		
+         function checkdraw(a,b)
+         {
+
+         	if(a>8 && b==null)
+         	{
+         		//alert("draw a game!");
+         		 var dis=document.getElementById('content1');
+       			var x=document.getElementById('d2').innerHTML="Draw!!!"+"<br>"+"Hope you Had Fun!!";
+      			 dis.style.display='block';
+         		gamereset();
+         	}
+         }
+         function checkwinner(move)
+         {
+         	var res=false;
+         	if(checkrow(1,2,3,move)||
+         	 checkrow(4,5,6,move)||
+         	 checkrow(7,8,9,move)||
+         	 checkrow(1,4,7,move) || 
+         	 checkrow(2,5,8,move) || 
+         	 checkrow(3,6,9,move) || 
+         	 checkrow(1,5,9,move) ||
+         	  checkrow(3,5,7,move)){
+         		res=true;
+         	}
+         	
+
+         	return res;
+         }
+		function checkrow(a,b,c,move)
+		{
+			var res=false;
+			if(getblock(a)== move && getblock(b)== move &&getblock(c)==move)
+			{
+				return true;
+			}
+			
+			return res;
+			
+		}
+	function getblock(number)
+	{
+       return document.getElementById("s"+ number).innerText;
+	}	
+
+	function gamereset()
+	{
+		 var square=document.getElementsByClassName('square');
+		 var i=0;
+		 while(i<square.length)
+		 {
+		 	square[i++].innerText='';
+		 }
+		 count=0;
+		 document.turn='';
+		 document.winner=null;
+
+	}	
+		
+	
+	</script>
+	<script type="text/javascript">
+		var count=0;
+		 var gridArray = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+ 		 var aiSequence = [4, 2, 0, 6, 8, 3, 1, 5, 7];
+
+ 		 var aiPlaying = true;
+  		var aiPlayerId = 2;
+  		
+
+  		var playerIdentifiers = [" ", "O", "X"];
+  		var playersTurn = 1;
+		function startgame() {
+			
+			clearGrid();
+		}
+		function nextmove1(squareId)
+		{
+
+			 if(gridArray[squareId]==0)
+			{	
+				 setsquaretocurrentplayer(squareId);
+			//switchturn();
+			}
+			else
+			{
+				
+			}
+		}
+		function setsquaretocurrentplayer(buttonId)
+		{
+			gridArray[buttonId]=playersTurn;
+			switchturn();
+		}
+		
+		
+		function switchturn()
+		{
+           updateGridDisplay();
+			if(endgame()==true)
+			{
+				if (winCheck() == true) {
+					
+ 
+       var dis=document.getElementById('content');
+       var x=document.getElementById('d1').innerHTML="player" +" "+playersTurn+" "+"won!";
+       dis.style.display='block';
+          
+                // clearGrid();
+                 
+     		 	}
+     	  else
+        		{
+        			
+    
+        	 var dis=document.getElementById('content');
+       var x=document.getElementById('d1').innerHTML="Draw!!!"+"<br>"+"Hop you had fun!!!";
+       dis.style.display='block';
+                
+                    //clearGrid();
+                    
+        		}
+        		clearGrid();
+        		
+			}
+			else
+			{
+			  playersTurn == 2 ? playersTurn = 1: playersTurn = 2;
+
+     	 if (aiPlaying == true) {
+        if (playersTurn == aiPlayerId) {
+          runAi();
+        }
+      }	
+			}
+			
+		}
+		function endgame()
+		{
+			if(winCheck()==true)
+			{
+				return true;
+			}
+			else
+			{
+			 if( allsquaretaken()==true)
+			{
+                return true;
+			}
+			else
+			{
+				return false;
+			}
+			}
+		}
+			function allsquaretaken() {
+    	var allSquaresHaveBeenTaken = true;
+
+    	for (var i = 0; i < 9; i++) {
+      	if (gridArray[i] == 0) {
+        		allSquaresHaveBeenTaken = false;
+        	break;
+      	}
+    	}
+
+    return allSquaresHaveBeenTaken;
+  }
+		
+      
+        function winCheck() {
+        	var res=false;
+    if (
+      gridArray[0] == gridArray[1] && gridArray[1] == gridArray[2] && gridArray[0] > 0 ||
+      gridArray[3] == gridArray[4] && gridArray[4] == gridArray[5] && gridArray[3] > 0 ||
+      gridArray[6] == gridArray[7] && gridArray[7] == gridArray[8] && gridArray[6] > 0 ||
+      gridArray[0] == gridArray[3] && gridArray[3] == gridArray[6] && gridArray[0] > 0 ||
+      gridArray[1] == gridArray[4] && gridArray[4] == gridArray[7] && gridArray[1] > 0 ||
+      gridArray[2] == gridArray[5] && gridArray[5] == gridArray[8] && gridArray[2] > 0 ||
+      gridArray[0] == gridArray[4] && gridArray[4] == gridArray[8] && gridArray[0] > 0 ||
+      gridArray[2] == gridArray[4] && gridArray[4] == gridArray[6] && gridArray[2] > 0
+    ) {
+      return true;
+    } 
+    return res;
+  }
+  function runAi() {
+    var aiCanWin = false;
+    var playerCanWin = false;
+
+    for (var i = 0; i < 9; i++) {
+      if (gridArray[i] == 0) {
+        gridArray[i] = playersTurn;
+        
+
+        if (winCheck()) {
+          aiCanWin = true;
+          break;
+        } else {
+          gridArray[i] = 0;
+        }
+      }
+    }
+
+    if (aiCanWin == false) {
+      for (i = 0; i < 9; i++) {
+        if (gridArray[i] == 0) {
+          gridArray[i] = playersTurn == 1 ? 2 : 1;
+
+          if (winCheck()) {
+            playerCanWin = true;
+            gridArray[i] = playersTurn;
+              
+            break;
+          } else {
+            gridArray[i] = 0;
+          }
+        }
+      }
+
+      if (playerCanWin == false) {
+        for (i = 0; i < aiSequence.length; i++) {
+          if (gridArray[aiSequence[i]] == 0) {
+            gridArray[aiSequence[i]] = playersTurn;
+              
+            break;
+          }
+        }
+      }
+    }
+
+    switchturn();
+  }
+
+        
+         function clearGrid() {
+     
+    
+    	for (var i = 0; i < 9; i++) {
+      	gridArray[i] = 0;
+
+    	}  
+    	updateGridDisplay();
+ 	 }
+
+  function updateGridDisplay() {
+    for (var i = 0; i < 9; i++) {
+      document.getElementById("" + i).innerHTML = playerIdentifiers[gridArray[i]];
+    }
+  }
+</script>
+	<!--<meta  name="width=device-width,initial-scale=1.0">-->
+	<title>Tic-Tac-Toe</title>
+
+</head>
+<body>
+<div id="loader">
+	<div id="myprogress" style="display: none">
+ 	<div id="probar"></div>
+ </div>
+ <br>
+ <button onclick="move()" id='p1'>Click here</button>
+ <button id='p2' style="display:none" onclick="myfunc()">Multi player</button>
+ <button id='p3' style="display: none" onclick="myfunc1()">Single player</button>
+</div>
+
+<div id="mydiv" style="display: none">
+	<h1> Tic Tac Toe game </h1>
+
+	<table border="1">
+		<tr>
+			<td id="s1" class="square" onclick="nextmove(this);"></td>
+			<td id="s2" class="square" onclick="nextmove(this);"></td>
+			<td id="s3" class="square" onclick="nextmove(this);"></td>
+		</tr>
+		<tr>
+			<td id="s4" class="square" onclick="nextmove(this);"></td>
+			<td  id="s5" class="square" onclick="nextmove(this);"></td>
+			<td  id="s6" class="square" onclick="nextmove(this);"></td>
+		</tr>
+		<tr>
+			<td id="s7" class="square" onclick="nextmove(this);"></td>
+			<td id="s8" class="square" onclick="nextmove(this);"></td>
+			<td id="s9" class="square" onclick="nextmove(this);"></td>
+		</tr>
+	</table>
+
+	    <div id="content1" class='hide' style="display:none">
+			<header>
+				<a href="#" class="closebtn1">x</a>
+				<h2 id="d2"></h2>
+			</header>
+			
+		
+	</div>
+</div>
+
+<div id="mydiv1" style="display:none">
+	
+	<h1> Tic Tac Toe game </h1>
+
+	<table border="1">
+		<tr>
+			<td id="0" class="square" onclick="nextmove1(this.id);"></td>
+			<td id="1" class="square" onclick="nextmove1(this.id);"></td>
+			<td id="2" class="square" onclick="nextmove1(this.id);"></td>
+		</tr>
+		<tr>
+			<td id="3" class="square" onclick="nextmove1(this.id);"></td>
+			<td  id="4" class="square" onclick="nextmove1(this.id);"></td>
+			<td  id="5" class="square" onclick="nextmove1(this.id);"></td>
+		</tr>
+		<tr>
+			<td id="6" class="square" onclick="nextmove1(this.id);"></td>
+			<td id="7" class="square" onclick="nextmove1(this.id);"></td>
+			<td id="8"class="square" onclick="nextmove1(this.id);"></td>
+		</tr>
+	</table>
+
+
+
+		<div id="content" class='hide' style="display:none">
+			<header>
+				<a href="#" class="closebtn">x</a>
+				<h2 id="d1"></h2>
+			</header>
+			
+		
+	</div>
+</div>
+	
+<script type="text/javascript">
+	
+	
+	//var x=document.getElementById('loader');
+	 //var a=document.getElementById('p1');
+
+function move()
+{
+	var x=document.getElementById('p1');
+	x.style.display='none';
+	var a=document.getElementById('myprogress');
+	a.style.display='block';
+     var element=document.getElementById("probar");
+     var width=1;
+     var id=setInterval(frame,10);
+     function frame()
+     {
+     	if(width>=100)
+     	{
+     		clearInterval(id);
+     		element.style.display='none';
+     		a.style.display='none';
+     		var f=document.getElementById('p2');
+			f.style.display='block';
+			var n=document.getElementById('p3');
+			n.style.display='block';
+     	}
+     	else
+     	{
+     		width++;
+     		element.style.animation= " 0.2s linear infinite";
+     	    element.style.width=width + '%';
+     	     element.innerHTML=width * 1 + '%';
+     	}
+     }
+  
+}
+
+
+function myfunc()
+{
+	var p=document.getElementById("mydiv");
+	p.style.display='block';
+	document.getElementById('p2').style.display='none';
+	document.getElementById('p3').style.display='none';
+}
+
+ function  myfunc1()
+ {
+ 	  document.getElementById('mydiv1').style.display='block';
+ 	  document.getElementById('p2').style.display='none';
+	document.getElementById('p3').style.display='none';
+ }
+</script>
+<script type="text/javascript">
+	
+var modal=document.getElementById('content');
+var a=document.getElementsByClassName('closebtn')[0];
+a.onclick=function()
+{
+   modal.style.display="none";
+}
+     
+</script>
+<script type="text/javascript">
+	
+var modal1=document.getElementById('content1');
+var a=document.getElementsByClassName('closebtn1')[0];
+a.onclick=function()
+{
+   modal1.style.display="none";
+}
+     
+</script>
+
+
+</body>
+</html>
