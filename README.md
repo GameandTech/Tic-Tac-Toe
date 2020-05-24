@@ -1,2 +1,2 @@
 # Tic-Tac-Toe
-Play Here:-https://gameandtech.github.io/Tic-Tac-Toe/
+Play Here:-https://dhruv-suthar.github.io/Tic-Tac-Toe/
