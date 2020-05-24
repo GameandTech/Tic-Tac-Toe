@@ -34,11 +34,11 @@
 			//square=validmoves(square);
 			if(checkwinner(document.turn))
 			{
-				  var dis=document.getElementById('content1');
-       			var x=document.getElementById('d2').innerHTML=document.turn+" "+"won!";
-      			 dis.style.display='block';
+// 				  var dis=document.getElementById('content1');
+//        			var x=document.getElementById('d2').innerHTML=document.turn+" "+"won!";
+//       			 dis.style.display='block';
           
-               // alert("congrates,"+" "+document.turn +" "+"has won!");
+               alert("congrates,"+" "+document.turn +" "+"has won!");
                 document.winner=document.turn;
                 gamereset();
 
@@ -79,10 +79,10 @@
 
          	if(a>8 && b==null)
          	{
-         		//alert("draw a game!");
-         		 var dis=document.getElementById('content1');
-       			var x=document.getElementById('d2').innerHTML="Draw!!!"+"<br>"+"Hope you Had Fun!!";
-      			 dis.style.display='block';
+         		alert("draw a game!");
+//          		 var dis=document.getElementById('content1');
+//        			var x=document.getElementById('d2').innerHTML="Draw!!!"+"<br>"+"Hope you Had Fun!!";
+//       			 dis.style.display='block';
          		gamereset();
          	}
          }
@@ -394,14 +394,6 @@
 
 
 
-		<div id="content" class='hide' style="display:none">
-			<header>
-				<a href="#" class="closebtn">x</a>
-				<h2 id="d1"></h2>
-			</header>
-			
-		
-	</div>
 </div>
 	
 <script type="text/javascript">
@@ -458,26 +450,7 @@ function myfunc()
 	document.getElementById('p3').style.display='none';
  }
 </script>
-<script type="text/javascript">
-	
-var modal=document.getElementById('content');
-var a=document.getElementsByClassName('closebtn')[0];
-a.onclick=function()
-{
-   modal.style.display="none";
-}
-     
-</script>
-<script type="text/javascript">
-	
-var modal1=document.getElementById('content1');
-var a=document.getElementsByClassName('closebtn1')[0];
-a.onclick=function()
-{
-   modal1.style.display="none";
-}
-     
-</script>
+
 
 
 </body>
